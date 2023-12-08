@@ -29,7 +29,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{route('approval.index')}}" class="nav-link">
-                        <i class="nav-icon fa fa-pencil-alt"></i>
+                        <i class="nav-icon ion ion-android-checkmark-circle"></i>
                         <p>
                             طلب إستئذان
                         </p>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Alkoumi\LaravelHijriDate\Hijri;
 use App\Models\Employee;
 use App\Models\Medical;
 use Carbon\Carbon;

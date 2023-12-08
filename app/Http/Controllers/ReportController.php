@@ -114,20 +114,57 @@ class ReportController extends Controller
         }
         elseif ($request->type == 'delay')
         {
-            $a= Employee::where('id',$request->employee_id)->with(['punishment'=> function($q) use($request){
+            $delays= Employee::where('id',$request->employee_id)->with(['punishment'=> function($q) use($request){
                 $q->where('type','delay')->whereBetween('date',[$request->from_date,$request->to_date]);
             }])->get();
+
+            $html = view('delay_print',compact('delays','dayName'))->toArabicHTML();
+
+            $pdf = PDF::loadHTML($html)->output();
+
+            $headers = array(
+                "Content-type" => "application/pdf",
+            );
+            return response()->streamDownload(
+                fn () => print($pdf),
+                "Employee-".str_replace(' ','-',$delays[0]['name'])."-report-".date("Y-m-d").".pdf", // the name of the file/stream
+                $headers
+            );
         }
         elseif ($request->type == 'medical')
         {
-            $a= Employee::where('id',$request->employee_id)->with(['medical'=> function($q) use($request){
+             $medicals= Employee::where('id',$request->employee_id)->with(['medical'=> function($q) use($request){
                 $q->whereBetween('from_date',[$request->from_date,$request->to_date])
                     ->orWhereBetween('to_date',[$request->from_date,$request->to_date]);
             }])->get();
+             $html = view('medical_print',compact('medicals','dayName'))->toArabicHTML();
+
+            $pdf = PDF::loadHTML($html)->output();
+
+            $headers = array(
+                "Content-type" => "application/pdf",
+            );
+            return response()->streamDownload(
+                fn () => print($pdf),
+                "Employee-".str_replace(' ','-',$medicals[0]['name'])."-report-".date("Y-m-d").".pdf", // the name of the file/stream
+                $headers
+            );
         }
         elseif ($request->type == 'punishment')
         {
-            $a= Employee::where('id',$request->employee_id)->with('punishment')->get();
+            $punishments= Employee::where('id',$request->employee_id)->with('punishment')->get();
+             $html = view('punishment_print',compact('punishments','dayName'))->toArabicHTML();
+
+            $pdf = PDF::loadHTML($html)->output();
+
+            $headers = array(
+                "Content-type" => "application/pdf",
+            );
+            return response()->streamDownload(
+                fn () => print($pdf),
+                "Employee-".str_replace(' ','-',$punishments[0]['name'])."-report-".date("Y-m-d").".pdf", // the name of the file/stream
+                $headers
+            );
         }
 
     }
