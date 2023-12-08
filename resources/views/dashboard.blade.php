@@ -35,14 +35,14 @@
         <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-purple">
                 <div class="inner">
                     <h3>{{$licenceCount}}</h3>
 
                     <p>طلبات الرخص</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-ios-paper-outline "></i>
+                    <i class="ion ion-clipboard "></i>
                 </div>
                 <div class="small-box-footer"></div>
             </div>
