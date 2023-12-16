@@ -55,6 +55,15 @@
     {!! $chart2->renderJs() !!}
     {!! $chart3->renderJs() !!}
 @endif
+<script>
+    window.onload = function(){
+        setTimeout(function(){
+            var loader = document.getElementById("loading-screen");
+            loader.style.display = "none";
+        },800)
+    }
+
+</script>
 @yield('js')
 </body>
 </html>

@@ -33,4 +33,11 @@
     <link rel="stylesheet" href="{{asset('dist')}}/css/custom.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+<!-- Loading Screen -->
+
 <div class="wrapper">
+    <div id="loading-screen">
+        <div class="loader">
+        </div>
+        <h2 class="mr-5">جاري التحميل...</h2>
+    </div>
