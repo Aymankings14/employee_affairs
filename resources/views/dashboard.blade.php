@@ -72,11 +72,11 @@
             <!-- Map card -->
             <div class="card">
                 <div class="card-header" style="background: #1f3b48 !important;">
-                    <h3 class="card-title text-light">
+                    <h3 class="card-title text-light float-left">
                         آخر موظفين تم إدخالهم
                     </h3>
                     <!-- card tools -->
-                    <div class="card-tools">
+                    <div class="card-tools float-right">
                         <button type="button"
                                 class="btn btn-light btn-sm"
                                 data-card-widget="collapse"
@@ -114,4 +114,37 @@
         <!-- right col -->
     </div>
     <!-- /.row (main row) -->
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">{{ $chart1->options['chart_title'] }}</div>
+
+                <div class="card-body">
+                    {!! $chart1->renderHtml() !!}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="card card">
+                <div class="card-header">{{ $chart2->options['chart_title'] }}</div>
+                <div class="card-body">
+                    {!! $chart2->renderHtml() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">{{ $chart2->options['chart_title'] }}</div>
+                <div class="card-body">
+                    {!! $chart3->renderHtml() !!}
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -99,7 +99,7 @@
 <body>
 <div class="row">
     <div class="column">
-        <span class="text-darky right box-color">تقارير لائحة الجزاء</span>
+        <span class="text-darky right box-color">جميع التقارير</span>
         <span class="text-darky left box-color">تاريخ إستخراج التقرير : {{$dayName}} </span>
         <div class="fix"></div>
     </div>
@@ -125,6 +125,36 @@
         </tbody>
     </table>
     <div style="margin-bottom: 40px"></div>
+    <h3 class="box-color">لائحة الإجازات</h3>
+    <table lang="ar">
+        <thead>
+        <th>النوع </th>
+        <th>المدة </th>
+        <th>المدة المطلوبة</th>
+        <th>تاريخ بدء الإجازة</th>
+        <th>تاريخ إنتهاء الإجازة</th>
+        </thead>
+        <tbody>
+        @foreach($leaves as $leave)
+            @foreach($leave->leave as $l)
+                <tr>
+                    <td>{{$l->type}}</td>
+                    <td>{{$l->duration}}</td>
+                    <td>{{$l->required_duration}}</td>
+                    <td>{{$l->start_date}}</td>
+                    <td>{{$l->from_date}}</td>
+                </tr>
+            @endforeach
+        @endforeach
+
+        </tbody>
+        <tfoot>
+        <td>{{$leaves[0]->leave->count()}}</td>
+        <td colspan="4">إجمالي الإجازات</td>
+        </tfoot>
+    </table>
+    <div style="margin-bottom: 40px"></div>
+    <h3 class="box-color">تقارير الجزاء</h3>
     <table lang="ar">
         <thead>
         <th>النوع</th>
@@ -175,8 +205,114 @@
         <td colspan="4">إجمالي لوائح الجزاء</td>
         </tfoot>
     </table>
-    <div>
-    </div>
+    <div style="margin-bottom: 40px"></div>
+    <h3 class="box-color">تقارير الإستئذانات</h3>
+    <table lang="ar">
+        <thead>
+        <th>التاريخ </th>
+        <th>اليوم </th>
+        <th>من الساعة</th>
+        <th>حتى الساعة</th>
+        </thead>
+        <tbody>
+        @foreach($approvals as $approval)
+            @foreach($approval->approval as $item)
+                <tr>
+                    <td>{{$item->date}}</td>
+                    <td>{{$item->day}}</td>
+                    <td>{{$item->from_hour}}</td>
+                    <td>{{$item->to_hour}}</td>
+                </tr>
+            @endforeach
+        @endforeach
+
+        </tbody>
+        <tfoot>
+        <td>{{$approvals[0]->approval->count()}}</td>
+        <td colspan="3">إجمالي الاستئذانات</td>
+        </tfoot>
+    </table>
+    <div style="margin-bottom: 40px"></div>
+    <h3 class="box-color">تقارير الرخص</h3>
+    <table lang="ar">
+        <thead>
+        <th>نوع الرخصة </th>
+        <th>السبب </th>
+        <th>مدتها</th>
+        <th>من الساعة</th>
+        <th>حتى الساعة</th>
+        </thead>
+        <tbody>
+        @foreach($licences as $licence)
+            @foreach($licence->licence as $item)
+                <tr>
+                    <td>{{$item->type}}</td>
+                    <td>{{$item->reason}}</td>
+                    <td>{{$item->time}}</td>
+                    <td>{{$item->from_date}}</td>
+                    <td>{{$item->to_date}}</td>
+                </tr>
+            @endforeach
+        @endforeach
+
+        </tbody>
+        <tfoot>
+        <td>{{$licences[0]->licence->count()}}</td>
+        <td colspan="4">إجمالي الرخص</td>
+        </tfoot>
+    </table>
+    <div style="margin-bottom: 40px"></div>
+    <h3 class="box-color">تقرير التأخيرات</h3>
+    <table lang="ar">
+        <thead>
+        <th>التاريخ</th>
+        <th>الساعة</th>
+        </thead>
+        <tbody>
+        @foreach($delays as $delay)
+            @foreach($delay->punishment as $item)
+                <tr>
+                    <td>{{$item->date}}</td>
+                    <td>{{$item->time}}</td>
+                </tr>
+            @endforeach
+        @endforeach
+
+        </tbody>
+        <tfoot>
+        <td>{{$delays[0]->punishment->count()}}</td>
+        <td colspan="1">إجمالي التأخيرات</td>
+        </tfoot>
+    </table>
+    <div style="margin-bottom: 40px"></div>
+    <h3 class="box-color">التقرير الطبي</h3>
+    <table lang="ar">
+        <thead>
+        <th>السبب</th>
+        <th>المدة</th>
+        <th>تاريخ البداية</th>
+        <th>تاريخ الإنتهاء</th>
+        <th>تاريخ بداية العمل</th>
+        </thead>
+        <tbody>
+        @foreach($medicals as $medical)
+            @foreach($medical->medical as $item)
+                <tr>
+                    <td>{{$item->reason}}</td>
+                    <td>{{$item->date}}</td>
+                    <td>{{$item->from_date}}</td>
+                    <td>{{$item->to_date}}</td>
+                    <td>{{$item->start_work}}</td>
+                </tr>
+            @endforeach
+        @endforeach
+
+        </tbody>
+        <tfoot>
+        <td>{{$medicals[0]->medical->count()}}</td>
+        <td colspan="4">إجمالي التقارير الطبية</td>
+        </tfoot>
+    </table>
 </div>
 </body>
 

@@ -31,10 +31,14 @@
         }
 
         body h3 {
-
             margin-top: 10px;
             margin-bottom: 20px;
-            color: #555;
+        }
+        .box-color{
+            color: #fff;
+            background: #00302e;
+            display: inline-block;
+            padding: 12px;
         }
 
         body a {
@@ -80,14 +84,14 @@
         }
         th {
             padding:10px;
-            background-color: #03A9F4;
+            background-color: #092e2e;
             color:#fff;
             font-weight:normal;
             font-size:16px;
         }
         td {
-            background-color: #607D8B;
-            color:#FFF
+            background-color: #dadbdc;
+            color:#000
         }
     </style>
 </head>
@@ -95,8 +99,8 @@
 <body>
 <div class="row">
     <div class="column">
-        <span class="text-darky right">تقرير الإستئذانات </span>
-        <span class="text-darky left">تاريخ إستخراج التقرير : {{$dayName}} </span>
+        <span class="text-darky right box-color">تقرير الإستئذانات </span>
+        <span class="text-darky left box-color">تاريخ إستخراج التقرير : {{$dayName}} </span>
         <div class="fix"></div>
     </div>
 </div>

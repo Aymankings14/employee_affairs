@@ -9,13 +9,16 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class LeaveController extends Controller
 {
-    public function index(){
-        $employees = Employee::select('id','name')->get();
-        return view('leave',compact('employees'));
+    public function index()
+    {
+        $employees = Employee::select('id', 'name')->get();
+        return view('leave', compact('employees'));
     }
-    public function store(Request $request){
+
+    public function store(Request $request)
+    {
         $request->validate([
-            'employee_id'=> 'required',
+            'employee_id' => 'required',
             'type' => 'required',
             'duration' => 'required',
             'notice_number' => 'required',
@@ -31,7 +34,7 @@ class LeaveController extends Controller
         $leave->required_duration = $request->required_duration;
         $leave->start_date = $request->start_date;
         $leave->employee_id = $request->employee_id;
-        if($leave->save()) {
+        if ($leave->save()) {
             Alert::success('نجاح', 'تم إضافة الإجازة');
             return back();
         }

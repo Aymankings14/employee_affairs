@@ -24,39 +24,38 @@ class ReportController extends Controller
         return view('report',compact('employees','types'));
     }
     public function store(Request $request){
-//        return $request->to_date;
-//        return $request->from_date;
-/*      For delay
-        $a= Employee::where('id',$request->employee_id)->with(['punishment'=> function($q) use($request){
-            $q->where('type','delay')->whereBetween('date',[$request->from_date,$request->to_date]);
-        }])->get();*/
-/*        for leave
-        $a= Employee::where('id',$request->employee_id)->with(['leave'=> function($q) use($request){
-            $q->whereBetween('from_date',[$request->from_date,$request->to_date]);
-        }])->get();*/
-/*        for approval
-        $a= Employee::where('id',$request->employee_id)->with(['approval'=> function($q) use($request){
-            $q->whereBetween('date',[$request->from_date,$request->to_date]);
-        }])->get();*/
-/*        for licence
-        $a= Employee::where('id',$request->employee_id)->with(['licence'=> function($q) use($request){
-            $q->whereBetween('from_date',[$request->from_date,$request->to_date])
-                ->whereBetween('from_date',[$request->from_date,$request->to_date]);
-        }])->get();*/
-/*        for medical
-        $a= Employee::where('id',$request->employee_id)->with(['medical'=> function($q) use($request){
-            $q->whereBetween('from_date',[$request->from_date,$request->to_date])
-                ->orWhereBetween('to_date',[$request->from_date,$request->to_date]);
-        }])->get();*/
-/*        for punishment
-        $a= Employee::where('id',$request->employee_id)->with('punishment')->get();
-        */
         Carbon::setLocale('ar');
         $dayName = Carbon::parse(now())->translatedFormat('l Y-m-d');
         if($request->type == 'all'){
-            $a= Employee::where('id',$request->employee_id)->with(['punishment'=> function($q) use($request){
-                $q->where('type','delay');
+            $leaves= Employee::where('id',$request->employee_id)->with(['leave'=> function($q) use($request){
+                $q->whereBetween('from_date',[$request->from_date,$request->to_date]);
             }])->get();
+            $approvals= Employee::where('id',$request->employee_id)->with(['approval'=> function($q) use($request){
+                $q->whereBetween('date',[$request->from_date,$request->to_date]);
+            }])->get();
+            $licences= Employee::where('id',$request->employee_id)->with(['licence'=> function($q) use($request){
+                $q->whereBetween('from_date',[$request->from_date,$request->to_date])
+                    ->orWhereBetween('to_date',[$request->from_date,$request->to_date]);
+            }])->get();
+            $delays= Employee::where('id',$request->employee_id)->with(['punishment'=> function($q) use($request){
+                $q->where('type','delay')->whereBetween('date',[$request->from_date,$request->to_date]);
+            }])->get();
+            $punishments= Employee::where('id',$request->employee_id)->with('punishment')->get();
+            $medicals= Employee::where('id',$request->employee_id)->with(['medical'=> function($q) use($request){
+                $q->whereBetween('from_date',[$request->from_date,$request->to_date])
+                    ->orWhereBetween('to_date',[$request->from_date,$request->to_date]);
+            }])->get();
+            $html = view('all_print',compact(['punishments','dayName','delays','leaves','approvals','licences','medicals']))->toArabicHTML();
+            $pdf = PDF::loadHTML($html)->output();
+
+            $headers = array(
+                "Content-type" => "application/pdf",
+            );
+            return response()->streamDownload(
+                fn () => print($pdf),
+                "Employee-".str_replace(' ','-',$punishments[0]['name'])."-report-".date("Y-m-d").".pdf", // the name of the file/stream
+                $headers
+            );
         }
         elseif ($request->type == 'leave'){
             $leaves= Employee::where('id',$request->employee_id)->with(['leave'=> function($q) use($request){

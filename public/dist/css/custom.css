@@ -65,3 +65,10 @@
         margin-right: 0;
     }
 }
+::selection {
+    background: #007bff;
+    color:#FFF;
+}
+.form-control:disabled, .form-control[readonly]{
+    cursor:not-allowed;
+}

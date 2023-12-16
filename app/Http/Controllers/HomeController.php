@@ -11,6 +11,7 @@ use App\Models\Medical;
 use App\Models\Punishment;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController extends Controller
 {
@@ -37,12 +38,54 @@ class HomeController extends Controller
         $leaveCount = Leave::Count();
         $lastTenLicenses = License::with('employee')->limit(10)->orderBy('id', 'DESC')->get();
         $lastTenEmployee=Employee::limit(10)->orderBy('id', 'DESC')->get();
-        return view('dashboard',compact(
+        $chart_options = [
+            'chart_title' => 'رسم بياني لإجازات الموظفين',
+            'report_type' => 'group_by_relationship',
+            'model' => 'App\Models\Leave',
+            'relationship_name'=>'employee',
+            'group_by_field' => 'name',
+            'group_by_period' => 'day',
+            'chart_type' => 'bar',
+            'chart_color' => '0,123,255',
+            'aggregate_function' => 'count',
+            'group_by_field_format' => 'Y-m-d H:i:s',
+//            'aggregate_field' => 'month(from_date a)',
+        ];
+        $chart1 = new LaravelChart($chart_options);
+        $chart_options2 = [
+            'chart_title' => 'رسم بياني عن التقارير الطبية',
+            'report_type' => 'group_by_relationship',
+            'model' => 'App\Models\Medical',
+            'relationship_name'=>'employee',
+            'group_by_field' => 'name',
+            'group_by_period' => 'day',
+            'chart_type' => 'bar',
+            'chart_color' => '0,123,255'
+
+        ];
+        $chart2 = new LaravelChart($chart_options2);
+        $chart_options3 = [
+            'chart_title' => 'رسم بياني عن إنقطاع الموظفين عن العمل',
+            'report_type' => 'group_by_relationship',
+            'model' => 'App\Models\Interruption',
+            'relationship_name'=>'employee',
+            'group_by_field' => 'name',
+            'group_by_period' => 'day',
+            'chart_type' => 'bar',
+            'aggregate_function' => 'count',
+            'aggregate_field' => 'month(date)',
+            'chart_color' => '0,123,255'
+        ];
+        $chart3 = new LaravelChart($chart_options3);
+        return view('dashboard',compact([
             'employeeCount',
             'approvalCount',
             'licenceCount',
             'leaveCount',
-            'lastTenEmployee'
-        ));
+            'lastTenEmployee',
+            'chart1',
+            'chart2',
+            'chart3',
+        ]));
     }
 }

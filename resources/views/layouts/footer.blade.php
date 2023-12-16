@@ -50,6 +50,11 @@
 <script src="{{asset('dist')}}/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('dist')}}/js/demo.js"></script>
+@if(\Illuminate\Support\Facades\Route::currentRouteName()== 'index')
+    {!! $chart1->renderJs() !!}
+    {!! $chart2->renderJs() !!}
+    {!! $chart3->renderJs() !!}
+@endif
 @yield('js')
 </body>
 </html>

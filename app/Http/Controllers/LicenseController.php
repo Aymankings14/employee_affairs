@@ -51,7 +51,7 @@ class LicenseController extends Controller
         $license->to_date = Carbon::parse($data['to_date'])->format('Y-m-d H:i');
 
         if ($license->save()) {
-            Alert::success('نجاح', 'تم إضافة الرخصة '.$license->from_date);
+            Alert::success('نجاح', 'تم إضافة الرخصة ');
             return back();
         }
         Alert::error('حدث خطأ ما ', 'الرجاء المحاولة مرة أخرى ');
